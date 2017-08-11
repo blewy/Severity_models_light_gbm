@@ -23,13 +23,13 @@ load("./data/randomModel.RData") %>% print()
 random.preditions <- pred
 random.model<-bst.model
 
-
 #Bayes models
 load("./data/bayesModel.RData") %>% print()
 bayes.preditions <- pred
 bayes.model<-bst.model
 
 
+# compare diferent results
 plot.data <- data.frame(obs=test.target,grid.preditions=grid.preditions,random.preditions=random.preditions,bayes.preditions=bayes.preditions)
 
 plot.data.p<-plot.data  %>%
@@ -41,6 +41,7 @@ p3<-ggplot(plot.data.p,aes(x=key, y=log(value), fill=key)) + geom_boxplot() + co
 
 grid.arrange(p0, p1, p2, p3, ncol=2)
 
+# plot quantile costs
 plot.data$cut <- cut(test.target,breaks=quantile(test.target, probs=seq(0,1, by=0.05), na.rm=TRUE),include.lowest=TRUE)
 plot.data.long<- plot.data %>% group_by(cut) %>% 
   summarise(obs=sum(obs),grid.preditions=sum(grid.preditions),
@@ -50,6 +51,8 @@ plot.data.long<- plot.data %>% group_by(cut) %>%
 
 ggplot(plot.data.long , aes(x=cut,y=value)) + geom_col(alpha=0.7,aes(fill = key,color=key),position = "dodge") + labs(title = "Quantile Plot", subtitle = "Comparing observed vs predicted values", x = "Quantile", y="Sum")+ theme_light() +theme(axis.text.x  = element_text(angle=45, vjust=0.5, size=6)) 
 
+
+# Ploting Loss Results 
 loss.functions <- function(obs,preds){
   cor <-cor(preds,obs)
   mae <- mean(abs(preds-obs))
