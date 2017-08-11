@@ -10,10 +10,15 @@ In this tutorial I tried the lgbm to model the average cost (here half the risk 
 
 - In the code you can find the different programs implemented in a generic way that with a copy-past I could adapt this programs for other purposes. 
 The names are sugestive, 
+
       1 - **Grid Search**: i tried a large grid and saved the best model; also saved the test results to be used as pre-samples for bayesian hyper-parameter optimization
+      
       2 - **Random Search**: just created a huge gride (very thin) and sample a reasonable amount of parameters to test
+      
       3 - **Bayesian Hyperparameter search** with the help of **rBayesianOptimization** package
+      
       3.1-**Bayesian Hyperparameter search** usign the result obtoined from grid search as pre-samples
+      
       4 - Simple Script to compare results
       
       
