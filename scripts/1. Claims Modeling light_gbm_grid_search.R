@@ -26,6 +26,26 @@ dtrainvalid <- lgb.Dataset(as.matrix(cbind(train.dataset,validation.dataset)),
                                label = cbind(train.target,validation.target))
 
 
+params <- list(objective = "regression", metric = "huber")
+model <- lgb.cv(params,
+                dtrain,
+                1000,
+                nfold = 5,
+                min_data = 1,
+                stratified = FALSE,
+                learning_rate = 0.5,
+                early_stopping_rounds = 10)
+
+model$record_evals$valid$huber$eval 
+
+plot_learning<- data.frame(iter=1:model$best_iter,weight_loss=as.numeric(model$record_evals$valid$huber$eval[1:model$best_iter]),error_loss=as.numeric(model$record_evals$valid$huber$eval_err[1:model$best_iter]))
+
+plot_learning$min_error <- plot_learning$weight_loss-plot_learning$error_loss
+plot_learning$max_error <- plot_learning$weight_loss+plot_learning$error_loss
+
+ggplot(plot_learning, aes(x=iter,y=weight_loss)) + geom_line(color="red") + labs(title = "Learning Rate", subtitle = "L2 loss", x = "Iterations", y="Huber loss") 
+
+
 ## Create a specific candidate set of models to evaluate:
 # https://github.com/Microsoft/LightGBM/blob/master/docs/Parameters-tuning.md
 # https://github.com/Microsoft/LightGBM/blob/master/docs/Parameters-tuning.md
