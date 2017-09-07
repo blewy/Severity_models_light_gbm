@@ -49,7 +49,7 @@ plot.data.long<- plot.data %>% group_by(cut) %>%
             bayes.preditions=sum(bayes.preditions)) %>%  
   gather(key,value, obs, grid.preditions,random.preditions,bayes.preditions) 
 
-ggplot(plot.data.long , aes(x=cut,y=value)) + geom_col(alpha=0.7,aes(fill = key,color=key),position = "dodge") + labs(title = "Quantile Plot", subtitle = "Comparing observed vs predicted values", x = "Quantile", y="Sum")+ theme_light() +theme(axis.text.x  = element_text(angle=45, vjust=0.5, size=6)) 
+ggplot(plot.data.long , aes(x=cut,y=value)) + geom_col(alpha=0.7,aes(fill = key,color=key),position = "dodge") + labs(title = "Quantile Plot", subtitle = "Comparing observed vs predicted values", x = "Quantile (obs. Values)", y="Sum of Loss")+ theme_light() +theme(axis.text.x  = element_text(angle=45, vjust=0.5, size=6)) 
 
 
 # Ploting Loss Results 

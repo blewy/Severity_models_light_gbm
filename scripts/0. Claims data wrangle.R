@@ -67,13 +67,17 @@ describe(train)
 
 cat("\nDistribuition of Claims: ")
 
-ggplot(train, aes(x=(loss))) + geom_histogram(binwidth=10) + xlim(0,50000)
+p1<-ggplot(train, aes(x=(loss),fill = cut(loss, 100))) + geom_histogram(binwidth=10,show.legend = FALSE) + xlim(0,40000)+ labs(title = "Loss Distribution", subtitle = "Raw Data")+ ylab("")+theme_light() 
+
 library(plotly)
 
 ggplotly(ggplot(train, aes(x=(loss))) + geom_histogram(binwidth=10) + xlim(0,50000))
 
 #log loss
 ggplotly(ggplot(train, aes(x=log(loss))) + geom_histogram(binwidth=0.1))
+p2<-ggplot(train, aes(x=log(loss),fill = cut(loss, 100))) + geom_histogram(binwidth=0.1,show.legend = FALSE)+ xlim(3,12)+ labs(title = "", subtitle = "Log Loss")+ ylab("")+ theme_light() 
+
+grid.arrange(p1, p2, ncol=2)
 
 
 # Check for duplicated rows.
